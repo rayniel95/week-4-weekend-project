@@ -12,16 +12,21 @@ export default function Home() {
   const [contractAddress, setContractAddress] = useState('')
   const router = useRouter()
 
-  function navigate(e: FormEvent<HTMLFormElement>) {
+  function navigateToERC20Votes(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    router.push(`/contract/${contractAddress}`)
+    router.push(`/erc20votes/${contractAddress}`)
+  }
+
+  function navigateToTokenizedBallot(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    router.push(`/tokenizedballot/${contractAddress}`)
   }
   return (
     <main>
       <Container>
         <Row>
           <div>
-            <Form onSubmit={navigate}>
+            <Form onSubmit={navigateToERC20Votes}>
               <FormGroup>
                 <FormLabel>
                   ERC20Votes Contract address:
@@ -34,7 +39,7 @@ export default function Home() {
         </Row>
         <Row className='mt-2'>
           <div>
-            <Form onSubmit={navigate}>
+            <Form onSubmit={navigateToTokenizedBallot}>
               <FormGroup>
                 <FormLabel>
                   TokenizedBallot Contract address:

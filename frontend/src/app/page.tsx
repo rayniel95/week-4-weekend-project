@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.css'
-
+//TODO - add as feature to deploy the contracts
 export default function Home() {
   return (
     <main className={styles.main}>

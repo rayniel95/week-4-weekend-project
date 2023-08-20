@@ -1,5 +1,7 @@
 'use client'
 
+import 'bootstrap/dist/css/bootstrap.css'
+
 import Head from 'next/head'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
@@ -12,7 +14,7 @@ import {
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { createPublicClient, http } from 'viem'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
 const { chains, publicClient } = configureChains(
@@ -52,6 +54,9 @@ export default function RootLayout({
       <body>
         <WagmiConfig config={wagmiConfig}>
           <RainbowKitProvider chains={chains}>
+            <div className='mb-2'>
+              <ConnectButton />
+            </div>
             {children}
           </RainbowKitProvider>
         </WagmiConfig>

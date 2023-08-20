@@ -1,14 +1,39 @@
+'use client'
+
 import Head from 'next/head'
-import { WagmiConfig, createConfig, mainnet, sepolia } from 'wagmi'
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import {
+  sepolia
+} from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
 import { createPublicClient, http } from 'viem'
 
 
-const config = createConfig({
+const { chains, publicClient } = configureChains(
+  [sepolia],
+  [
+    //@ts-ignore
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ETHEREUM_SEPOLIA_API_KEY }),
+    publicProvider()
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains
+});
+
+const wagmiConfig = createConfig({
   autoConnect: false,
-  publicClient: createPublicClient({
-    chain: sepolia,
-    transport: http()
-  }),
+  connectors,
+  publicClient
 })
 
 export default function RootLayout({
@@ -25,8 +50,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
-        <WagmiConfig config={config}>
-          {children}
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider chains={chains}>
+            {children}
+          </RainbowKitProvider>
         </WagmiConfig>
       </body>
     </html>
